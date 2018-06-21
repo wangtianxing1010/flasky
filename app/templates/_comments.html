@@ -1,0 +1,23 @@
+{% for comment in comments %}
+{% if comment.disabled %}
+<p><i>This comment has been disabled</i></p>
+{% endif %}
+
+{% if moderate or not comment.disabled %}
+	{% if comment.body_html %}
+	<h5>{{comment.body_html|safe}}</h5>
+	{% else %}
+	<h5>{{comment.body}}</h5>
+	{% endif %}
+{% endif %}
+
+{% if moderate %}
+	{% if comment.disabled %}
+	<a class='btn btn-default btn-xc' href='{{url_for(".moderate_enable",id=comment.id,page=page)}}'>Enable</a>
+	{% else %}
+	<a class='btn btn-default btn-xc' href='{{url_for(".moderate_disable",id=comment.id,page=page)}}'>Disable</a>
+	{% endif %}
+{% endif %}
+	<p>by {{comment.author.username}}</p>
+	<p>on {{moment(comment.timestamp).format('L')}}</p>
+{% endfor %}
