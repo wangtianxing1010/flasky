@@ -9,6 +9,7 @@ class Config:
 	FLASKY_ADMIN= os.environ.get('FLASKY_ADMIN')
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	FLASKY_POSTS_PER_PAGE=15
+	SSL_DISABLE=True
 	
 	@staticmethod
 	def init_app(app):
@@ -60,6 +61,10 @@ class HerokuConfig(ProductionConfig):
 	@classmethod
 	def init_app(cls, app):
 		ProductionConfig.init_app(app)
+		SSL_DISABLE=bool(os.env.get('SSL_DISABLE'))
+		
+		from werkzeug.contrib.fixers import ProxyFix
+		app.wsgi_app=ProxyFix(app.wsgi_app)
 		
 		import logging
 		from logging.handlers import StreamHandler
