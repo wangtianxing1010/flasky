@@ -76,7 +76,7 @@ class HerokuConfig(ProductionConfig):
 		
 		file_handler=StreamHandler()
 		file_handler.setLevel(logging.WARNING)
-		app.logger.addHandlers(file_handler)
+		app.logger.addHandler(file_handler)
 		
 config={
 	'development': DevelopmentConfig,
