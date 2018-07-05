@@ -14,12 +14,13 @@ def unauthorized(message):
     response.status_code = 401
     return response
 
+
 def forbidden(message):
-	response=jsonify({'error':'forbidden','message':message})
-	response.status_code=403
-	return response
-	
+    response = jsonify({'error': 'forbidden', 'message': message})
+    response.status_code = 403
+    return response
+
+
 @api.errorhandler(ValidationError)
 def validation_error(e):
-	return bad_request(e.args[0])
-	
+    return bad_request(e.args[0])

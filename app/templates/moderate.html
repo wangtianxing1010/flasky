@@ -2,11 +2,15 @@
 {% import '_macros.html' as macros %}
 
 {% block title %}Moderate Comments{% endblock %}
+
 {% block page_content %}
-<h1>Moderate Comments</h1>
+<div class="page-header"><h1>Moderate Comments</h1></div>
+
 {% set moderate = True %}
 {% include '_comments.html' %}
+<div class="pagination">
 {% if pagination %}
 	{{ macros.pagination_widget(pagination,'.moderate')}}
 {% endif %}
+</div>
 {% endblock %}

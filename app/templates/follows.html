@@ -11,7 +11,7 @@
 <table class='table table-hover follows'>
 	<thead><tr><th>User</th><th>Since</th></tr></thead>
 	{% for f in follows %}
-	{% if not f.user.username=user.username%}
+	{% if not f.user.username==user.username%}
 	<tr>
 		<td>
 			<a href='{{url_for(".user",username=f.user.username)}}'>

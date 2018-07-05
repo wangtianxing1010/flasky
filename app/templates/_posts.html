@@ -1,30 +1,52 @@
-{% for post in posts %}
-{% if post %}
-<ul>
-	<li><a href='{{url_for(".user", username=post.author.username)}}'>
-{{post.author.name}}</a></li>
-	<li>{{ moment(post.timestamp).fromNow(refresh=True) }}</li>
+<ul class="posts">
+	{% for post in posts %}
+	<li class="post">
+		<div class="profile-thumbnail">
+			{% if post.author %}
+			<a href='{{url_for(".user", username=post.author.username)}}'>
+				<img class="img-rounded profile-thumbnail" src="{{post.author.gravatar(size=40)}}">
+			</a>
+			{% endif %}
+		</div>
+		<div class="post-content">
+			<div class="post-author">
+				{% if post.author %}
+				<a href='{{url_for(".user", username=post.author.username)}}'>{{post.author.name}}</a>
+				{% else %}
+				Unknown User
+				{% endif %}
+			</div>
+			<div class="post-date">
+				{{ moment(post.timestamp).fromNow(refresh=True) }}
+			</div>
+			<div class='post-body'>
+				{% if post.body_html %}
+					<h5>{{post.body_html|safe}}</h5>
+				{% else %}
+					<h5>{{post.body}}</h5>
+				{% endif %}
+			</div>
+		</div>
+
+		<div class='post-footer'>
+			<a href='{{url_for(".post",id=post.id)}}'>Permanent Link</a>
+			{% if current_user == post.author %}
+			<a href='{{url_for(".edit_post",id=post.id)}}'>
+			<span class="label label-primary">Edit Author</span></a>
+			<a href='{{url_for(".delete_post",id=post.id)}}'>
+			<span class="label label-danger">Delete Post</span></a>
+
+			{% elif current_user.is_administrator %}
+			<a href='{{url_for(".edit_post",id=post.id)}}'>
+			<span class="label label-danger">Edit Administrator</span></a>
+			<a href='{{url_for(".delete_post",id=post.id)}}'>
+			<span class="label label-danger">Delete Post</span></a>
+			{% endif %}
+		</div>
+		<div class='comments'>
+			<a href='{{url_for(".post",id=post.id)}}#comments'>
+			<span class='label label-primary'>{{post.comments.count()}} Comments</span></a>
+		</div>
+	</li>
+	{% endfor %}
 </ul>
-<div class='post-body'>
-	{% if post.body_html %}
-		<h5>{{post.body_html|safe}}</h5>
-	{% else %}
-		<h5>{{post.body}}</h5>
-	{% endif %}
-</div>
-<div class='post-footer'>
-	<a href='{{url_for(".post",id=post.id)}}'>Permanent Link</a>
-	{% if current_user == post.author %}
-	<a href='{{url_for(".edit,id=post.id")}}'>
-	<span class="label label-primary">Edit Author</span></a>
-	{% elif current_user.is_administrator %}
-	<a href='{{url_for(".edit",id=post.id)}}'>
-	<span class="label label-danger">Edit Administrator</span></a>
-	{% endif %}
-</div>
-<div class='comments'>
-<a href='{{url_for(".post",id=post.id)}}#comments'>
-<span class='label label-primary'>{{post.comments.count()}} Comments</span></a>
-</div>
-{% endif %}
-{% endfor %}

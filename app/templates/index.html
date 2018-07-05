@@ -2,11 +2,11 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 {% import '_macros.html' as macros %}
 
+{% block title %}Flasky{% endblock %}
+
 {% block page_content %}
 <div class='page-header'>
-	<h1>Hello,  {{current_user.name}}
-		
-	</h1>
+	<h1>Hello,  {{current_user.name}}</h1>
 	{% if not known %}
 	<h2>Nice to meet you!</h2>
 	{% else %}
@@ -18,22 +18,23 @@
 	{{ wtf.quick_form(form)}}
 	{% endif %}
 </div>
-<div class='posts'>
-<ul class='nav nav-tabs'>
-	<li role='presentation' class='active'>
-		<a href='{{url_for(".show_followed")}}' class='navbar-brand'>Followed Posts</a>
-	</li>
-	<li role='presentation' class='active'>
-		<a href='{{url_for(".show_all")}}' class='navbar-brand'>All Posts</a>
-	</li>
-</ul>
+<div class='post-tabs'>
+    <ul class='nav nav-tabs'>
+        <li role='presentation' class='active'>
+            <a href='{{url_for(".show_followed")}}' class='navbar-brand'>Followed Posts</a>
+        </li>
+        <li role='presentation' class='active'>
+            <a href='{{url_for(".show_all")}}' class='navbar-brand'>All Posts</a>
+        </li>
+    </ul>
 	{% include '_posts.html' %}
 </div>
-{%if pagination %}
-	<div class="posts-pagination">
-		{{ macros.pagination_widget(pagination,'.index') }}
-	</div>
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
 {% endif %}
+
 {#
 <p>The local date and time is {{moment(current_time).format('LLL')}}</p>
 <p> {{ moment(current_time).fromNow(refresh=True) }}</p>

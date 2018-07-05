@@ -1,66 +1,72 @@
 {% extends "base.html" %}
+{% import '_macros.html' as macros %}
 
 {% block title %} Flasky User{% endblock %}
 
 {% block page_content %}
 <div class='page-header'>
 <h1>{{user.username}}'s Page</h1>
-	<img class='img-rounded profile-thumbnail' src='{{user.gravatar()}}'> 
-	{% if current_user.is_administrator %}
-	<p>
-		<a class="btn btn-danger" href="{{url_for('.edit_profile_admin', id=user.id)}}">
-		Edit Profile [Admin]
-		</a>
-	</p>
-	{% elif user == current_user %}
-	<p>
-		<a class="btn btn-default" href="{{url_for('.edit_profile')}}">
-		Edit Profile
-		</a>
-	</p>
-	{% endif %}
-	<div class='follows'>
-	{% if current_user.can(Permission.FOLLOW) and user != current_user %}
-		{% if current_user.is_following(user) %}
-		<a href='{{url_for(".unfollow",username=user.username)}}' class='btn btn-default'>Unfollow</a>
-		{% else %}
-		<a href='{{url_for(".follow",username=user.username)}}' class='btn btn-primary'>Follow</a>
+	<img class='img-rounded profile-thumbnail' src='{{user.gravatar(size=256)}}'>
+	<div class="profile-header">
+		{% if user.name or user.location %} {#why double check?#}
+		<p>
+		{% if user.name %} {{user.name}} {% endif %}
+		{% if user.location %}
+			From <a href="http://maps.google.com/?q={{ user.location }}"> {{user.location}}
+			</a>
 		{% endif %}
-	{% endif %}
-	<a href='{{url_for(".followers",username=user.username)}}'>Followers:
-	<span class='badge'>{{user.followers.count()-1}}</span></a>
-	<a href="{{url_for('.followed_by',username=user.username)}}">Followed: 
-	<span class='badge'>{{user.followed.count()-1}}</span></a>
-	{% if current_user.is_authenticated and user != current_user and user.is_following(current_user) %}
-		<span class='label label-primary'>Follows You</span>
-	{% endif %}
+		</p>
+		{%if user.is_administrator %}
+		<p><a href='mailto:{{user.email}}'>{{user.email}}</a>
+		</p>
+		{% endif %}
+
+		{% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
+		<p>
+		Member Since {{moment(user.member_since).format('L')}}.
+		Last Seen on {{moment(user.last_seen).fromNow()}}.
+		</p>
+		{% endif %}
+		{% if current_user.is_administrator %}
+		<p>
+			<a class="btn btn-danger" href="{{url_for('.edit_profile_admin', id=user.id)}}">
+			Edit Profile [Admin]
+			</a>
+		</p>
+		{% elif user == current_user %}
+		<p>
+			<a class="btn btn-default" href="{{url_for('.edit_profile')}}">
+			Edit Profile
+			</a>
+		</p>
+		{% endif %}
+		<p>	{% if current_user.can(Permission.FOLLOW) and user != current_user %}
+			{% if current_user.is_following(user) %}
+				<a href='{{url_for(".unfollow",username=user.username)}}' class='btn btn-default'>Unfollow</a>
+			{% else %}
+				<a href='{{url_for(".follow",username=user.username)}}' class='btn btn-primary'>Follow</a>
+			{% endif %}
+			{% endif %}
+				<a href='{{url_for(".followers",username=user.username)}}'>Followers:
+					<span class='badge'>{{user.followers.count()-1}}</span></a>
+				<a href="{{url_for('.followed_by',username=user.username)}}">Followed:
+					<span class='badge'>{{user.followed.count()-1}}</span></a>
+			{% if current_user.is_authenticated and user != current_user and user.is_following(current_user) %}
+				<span class='label label-primary'>Follows You</span>
+			{% endif %}
+		</p>
 	</div>
-	<div class='posts'>
+</div>
+
+<div class='posts'>
 	<h3>Posts by {{user.username}}</h3>
 	{% include '_posts.html' %}
-	</div>
-	
-	{% if user.name or user.location %} {#why double check?#}
-	<p>
-	{% if user.name %} {{user.name}} {% endif %}
-	{% if user.location %}
-		From <a href="http://maps.google.com/?q={{ user.location }}"> {{user.location}}
-		</a>
-	{% endif %}
-	</p>
-	
-	{%if user.is_administrator %}
-	<p><a href='mailto:{{user.email}}'>{{user.email}}</a>
-	</p>
-	{% endif %}
-	{% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
-	
-	<p>
-	Member Since {{moment(user.member_since).format('L')}}.
-	Last Seen on {{moment(user.last_seen).fromNow()}}.
-	</p>
-	{% endif %}
 </div>
+{% if paginaion %}
+<div class="pagination">
+		{{macros.pagination_widget(pagination,'.user', username=user.username)}}
+</div>
+{% endif %}
 {% endblock %}
 
 {% block scripts %}

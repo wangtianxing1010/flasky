@@ -3,55 +3,63 @@
 
 {% block title %} Flasky {% endblock %}
 
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
 {% block navbar %}
 <div class='navbar navbar-inverse' role='navigation'>
 	<div class='container'>
 		<div class='navbar-header'>
-			<button type='button' class='navbar-toggle' 
-			data-toggle='collapse' data-target='.navbar-collapse'>
+			<button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
 			<span></span>
 			</button>
 			<a href='/' class='navbar-brand'>Flasky</a>
 		</div>
 		<div class='navbar-collapse collapse'>
+            <ul class="nav navbar-nav">
 			{% if current_user.is_authenticated %}
-			<li><a href="{{url_for('main.user', username=current_user.username)}}">
-				Profile
-				</a>
-			</li>
-			{% endif %}
-			{% if current_user.can(Permission.MODERATE_COMMENTS) %}
-			<li><a href="{{url_for('main.moderate')}}">
-				Moderate Comments
-				</a>
-			</li>
-			{% endif %}
+                <li><a href="{{ url_for('main.user', username=current_user.username) }}"> Profile </a></li>
+            {% endif %}
+            {% if current_user.can(Permission.MODERATE_COMMENTS) %}
+                <li><a href="{{url_for('main.moderate')}}"> Moderate Comments </a></li>
+            {% endif %}
+            </ul>
 		</div>
-	</div>
-</div>
-
-<div class='nav navbar-nav navbar-right'>
-	{% if current_user.is_authenticated %}
-		<li><a href='{{url_for("auth.logout")}}'>Sign Out</a></li>
-	{% else %}
-		<li><a href="{{url_for('auth.login')}}">Sign In</a></li>
-	{% endif %}
+        <ul class='nav navbar-nav navbar-right'>
+            {% if current_user.is_authenticated %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="{{ current_user.gravatar(size=20) }}">
+                    Account <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href='{{ url_for(".user",username=current_user.username) }}'>Change Whatever</a></li>
+                    <li><a href='{{ url_for("auth.logout") }}'>Sign Out</a></li>
+                </ul>
+            </li>
+            {% else %}
+		        <li><a href="{{url_for('auth.login')}}">Sign In</a></li>
+            {% endif %}
+        </ul>
+    </div>
 </div>
 {% endblock%}
 
 {% block content %}
 <div class='container'>
-{% for message in get_flashed_messages() %}
-	<div class='alert alert-warning'>
-	<button type='button' class='close' data-dismiss='alert'>&times;</button>
-	{{message}}
-	</div>
-{% endfor %}
+    {% for message in get_flashed_messages() %}
+    <div class='alert alert-warning'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+        {{message}}
+    </div>
+    {% endfor %}
 
-{% block page_content %}
-{% endblock %}
-
-
+    {% block page_content %}
+    {% endblock %}
 </div>
 {% endblock %}
 
