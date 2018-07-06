@@ -2,23 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c67b978a-7a0d-4d74-a151-f59deead5a7a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/static/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/500'.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api_1_0/errors.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api_1_0/errors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/errors.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/errors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/_comments.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/_comments.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/_macros.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/_macros.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/_posts.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/_posts.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/follows.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/follows.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/moderate.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/moderate.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../startflask/startflask.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../startflask/startflask.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../startflask/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../startflask/templates/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../startflask/templates/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../startflask/templates/header.html" afterDir="false" />
