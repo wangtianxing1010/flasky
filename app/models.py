@@ -27,7 +27,7 @@ class Role(db.Model):
                                Permission.COMMENT |
                                Permission.WRITE_ARTICLES |
                                Permission.MODERATE_COMMENTS, False),
-                 'Administrater': (0xff, False)
+                 'Administrator': (0xff, False)
                  }
         for r in roles:
             role = Role.query.filter_by(name=r).first()
@@ -176,7 +176,7 @@ class User(UserMixin, db.Model):
         return self.role is not None and (self.role.permissions & permissions) == permissions
 
     def is_administrator(self):
-        return self.can(Permission.ADMINISTRATER)
+        return self.can(Permission.ADMINISTRATOR)
 
     def ping(self):
         self.last_seen = datetime.utcnow()

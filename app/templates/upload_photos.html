@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %} Flasky - Upload Photos {% endblock %}
+
+{% block page_content %}
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="Upload">
+</form>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

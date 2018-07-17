@@ -19,6 +19,7 @@
 	{% endif %}
 </div>
 <div class='post-tabs'>
+    {% if current_user.is_authenticated %}
     <ul class='nav nav-tabs'>
         <li role='presentation' class='active'>
             <a href='{{url_for(".show_followed")}}' class='navbar-brand'>Followed Posts</a>
@@ -27,6 +28,7 @@
             <a href='{{url_for(".show_all")}}' class='navbar-brand'>All Posts</a>
         </li>
     </ul>
+    {% endif %}
 	{% include '_posts.html' %}
 </div>
 {% if pagination %}

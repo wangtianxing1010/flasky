@@ -16,7 +16,7 @@
 			</a>
 		{% endif %}
 		</p>
-		{%if user.is_administrator %}
+		{%if user.is_administrator() %}
 		<p><a href='mailto:{{user.email}}'>{{user.email}}</a>
 		</p>
 		{% endif %}
@@ -25,9 +25,10 @@
 		<p>
 		Member Since {{moment(user.member_since).format('L')}}.
 		Last Seen on {{moment(user.last_seen).fromNow()}}.
+            <a href="{{ url_for('.upload_photos') }}">Upload Photos</a>
 		</p>
 		{% endif %}
-		{% if current_user.is_administrator %}
+		{% if current_user.is_administrator() %}
 		<p>
 			<a class="btn btn-danger" href="{{url_for('.edit_profile_admin', id=user.id)}}">
 			Edit Profile [Admin]
@@ -41,11 +42,11 @@
 		</p>
 		{% endif %}
 		<p>	{% if current_user.can(Permission.FOLLOW) and user != current_user %}
-			{% if current_user.is_following(user) %}
-				<a href='{{url_for(".unfollow",username=user.username)}}' class='btn btn-default'>Unfollow</a>
-			{% else %}
-				<a href='{{url_for(".follow",username=user.username)}}' class='btn btn-primary'>Follow</a>
-			{% endif %}
+				{% if current_user.is_following(user) %}
+					<a href='{{url_for(".unfollow",username=user.username)}}' class='btn btn-default'>Unfollow</a>
+				{% else %}
+					<a href='{{url_for(".follow",username=user.username)}}' class='btn btn-primary'>Follow</a>
+				{% endif %}
 			{% endif %}
 				<a href='{{url_for(".followers",username=user.username)}}'>Followers:
 					<span class='badge'>{{user.followers.count()-1}}</span></a>

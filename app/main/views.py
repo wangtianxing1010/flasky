@@ -267,3 +267,9 @@ def moderate_disable(id):
     comment.disabled = True
     db.session.add(comment)
     return redirect(url_for('.moderate', page=request.args.get('page', 1, type=int)))
+
+@main.route('/upload_photos/', methods=['POST','GET'])
+def upload_photos():
+    file = request.files['file']
+    file.save(path + filename)
+    return render_template('upload_photos.html')

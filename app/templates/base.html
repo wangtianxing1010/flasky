@@ -37,12 +37,12 @@
                     Account <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href='{{ url_for(".user",username=current_user.username) }}'>Change Whatever</a></li>
+                    <li><a href='{{ url_for("main.user",username=current_user.username) }}'>Change Whatever</a></li>
                     <li><a href='{{ url_for("auth.logout") }}'>Sign Out</a></li>
                 </ul>
             </li>
             {% else %}
-		        <li><a href="{{url_for('auth.login')}}">Sign In</a></li>
+		        <li><a href="{{url_for('auth.sign_in_and_up')}}">Sign In</a></li>
             {% endif %}
         </ul>
     </div>
