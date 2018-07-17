@@ -179,7 +179,7 @@ def follow(username):
 @main.route('/unfollow/<username>/')
 @login_required
 @permission_required(Permission.FOLLOW)
-def unfollow(user):
+def unfollow(username):
     user = User.query.filter_by(username=username).first()
     # what is different for this condition block compared to the one above??
     if user is None:
@@ -270,6 +270,6 @@ def moderate_disable(id):
 
 @main.route('/upload_photos/', methods=['POST','GET'])
 def upload_photos():
-    file = request.files['file']
-    file.save(path + filename)
+    # file = request.files['file']
+    # file.save(path + filename)
     return render_template('upload_photos.html')
