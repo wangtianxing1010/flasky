@@ -54,27 +54,23 @@ class Follow(db.Model):
     __tablename__ = 'follows'
     follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    # Registration
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)  # fixed name
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
-    # Profile Page
     name = db.Column(db.String(64))  # editable name
     location = db.Column(db.String(64))
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)  # default can take a function as argument
-    # Avatar
     avatar_hash = db.Column(db.String(32))
-    # Relationships
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
     followed = db.relationship('Follow', foreign_keys=[Follow.follower_id],
@@ -83,6 +79,8 @@ class User(UserMixin, db.Model):
     followers = db.relationship('Follow', foreign_keys=[Follow.followed_id],
                                 backref=db.backref('followed', lazy='joined'), lazy='dynamic',
                                 cascade='all, delete-orphan')
+    photos = db.relationship("Photo", backref="author", lazy="dynamic")
+    albums = db.relationship("Album", backref="author", lazy="dynamic")
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -241,7 +239,7 @@ class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
-    timestamp = db.Column(db.Date, index=True, default=datetime.utcnow())
+    timestamp = db.Column(db.Date, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     body_html = db.Column(db.Text)
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
@@ -296,6 +294,7 @@ class Comment(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     disabled = db.Column(db.Boolean)
+    photo_id = db.Column(db.Integer, db.ForeignKey("photos.id"))
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
@@ -305,6 +304,32 @@ class Comment(db.Model):
         target.body_html = bleach.linkify(bleach.clean(markdown(
             value, output_format='html'), tags=allowed_tags, strip=True))
 
+
+class Album(db.Model):
+    __tablename__='albums'
+    id = db.Column(db.Integer, primary_key=True)
+    about = db.Column(db.Text)
+    title = db.Column(db.String(64))
+    cover = db.Column(db.String(64))
+
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    photos = db.relationship("Photo", backref="album", lazy="dynamic")
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+
+class Photo(db.Model):
+    __tablename__='photos'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64))
+    about = db.Column(db.Text)
+    url = db.Column(db.String(64))
+    url_s = db.Column(db.String(64))
+    url_m = db.Column(db.String(64))
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    album_id = db.Column(db.Integer, db.ForeignKey('albums.id'))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    comments = db.relationship("Comment", backref="photo", lazy="dynamic")
+    filename = db.Column(db.String(64))
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)

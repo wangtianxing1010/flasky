@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import '_macros.html' as macros %}
+{% block title %} FLASKY Create Album {% endblock %}
+
+{% block page_content %}
+<h4 id='albums'>Create Album</h4>
+<div class="create_album">
+{{wtf.quick_form(form)}}
+</div>
+{% endblock %}
+

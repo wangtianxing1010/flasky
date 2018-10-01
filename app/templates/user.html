@@ -25,7 +25,7 @@
 		<p>
 		Member Since {{moment(user.member_since).format('L')}}.
 		Last Seen on {{moment(user.last_seen).fromNow()}}.
-            <a href="{{ url_for('.upload_photos') }}">Upload Photos</a>
+			<a href="{{ url_for('.albums', username=user.username) }}">Albums</a>
 		</p>
 		{% endif %}
 		{% if current_user.is_administrator() %}
@@ -58,7 +58,21 @@
 		</p>
 	</div>
 </div>
-
+<!--{#-->
+<!--<div class='album-post-tabs'>-->
+	<!--{% if current_user.is_authenticated %}-->
+    <!--<ul class='nav nav-tabs'>-->
+        <!--<li role='presentation' class='active'>-->
+            <!--<a href='{{url_for(".albums", username=user.username))}}' class='navbar-brand'>Album</a>-->
+        <!--</li>-->
+        <!--<li role='presentation' class='active'>-->
+            <!--<a href='{{url_for(".show_posts")}}' class='navbar-brand'>Posts</a>-->
+        <!--</li>-->
+    <!--</ul>-->
+    <!--{% endif %}-->
+	<!--{% include '_posts.html' %}-->
+<!--</div>-->
+<!--#}-->
 <div class='posts'>
 	<h3>Posts by {{user.username}}</h3>
 	{% include '_posts.html' %}

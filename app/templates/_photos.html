@@ -1,0 +1,16 @@
+<ul class="photos">
+{% for foto_instance in foto_instance_list %}
+    <li>
+		<a href="{{url_for('.open_photo', id=foto_instance.id)}}">Open</a>
+		{% if user == current_user %}
+		<a href="{{url_for('.delete_photo', id=foto_instance.id, redirection=redirection)}}">Delete</a>
+		{% endif %}
+		- {{foto_instance.url}}
+		- {{foto_instance.author.username}}
+		- {{foto_instance.about}}
+		- {{foto_instance.title}}
+		<a href="{{url_for('.open_photo', id=foto_instance.id)}}"><img src="{{foto_instance.url_m}}"></a>
+		<br>
+	</li>
+{% endfor %}
+</ul>

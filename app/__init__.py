@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 from flask import Flask
 from flask_bootstrap import Bootstrap
@@ -8,15 +9,28 @@ from flask_moment import Moment
 from config import config
 from flask_login import LoginManager
 from flask_pagedown import PageDown
+from flask_uploads import UploadSet, configure_uploads, patch_request_class, IMAGES
+
+# from sqlalchemy import MetaData
+
+# naming_convention = {
+#     "ix": 'ix_%(column_0_label)s',
+#     "uq": "uq_%(table_name)s_%(column_0_name)s",
+#     "ck": "ck_%(table_name)s_%(column_0_name)s",
+#     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+#     "pk": "pk_%(table_name)s"
+# }
 
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
+# db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'  # why define endpoint here? isn't it set in views?
 pagedown = PageDown()
+photos = UploadSet('photos', IMAGES)
 
 
 def create_app(config_name):
@@ -30,6 +44,9 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     pagedown.init_app(app)
+
+    configure_uploads(app, photos)
+    patch_request_class(app, 32 * 1024 * 1024)  # 文件大小限制，默认为16MB
 
     if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
         from flask_sslify import SSLify

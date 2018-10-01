@@ -105,3 +105,5 @@ ENV/
 
 # SQLite databases
 *.sqlite
+
+.idea/

@@ -13,13 +13,15 @@ class Config:
     FLASKY_POSTS_PER_PAGE = 15
     FLASKY_FOLLOWERS_PER_PAGE =10
     SSL_DISABLE = True
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+
+# uploads
+    UPLOADED_PHOTOS_DEST = os.getcwd() + '/app/static/photos'
 
     @staticmethod
     def init_app(app):
@@ -88,13 +90,13 @@ class HerokuConfig(ProductionConfig):
         app.logger.addHandler(file_handler)
 
 
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
     'heroku': HerokuConfig,
-    'default': DevelopmentConfig
-}
+    'default': DevelopmentConfig,}
 
 '''
 

@@ -75,6 +75,7 @@ def sign_in_and_up():
         return redirect(url_for('main.index'))
     return render_template('auth/sign_in_and_up.html', signIn_form=form1, signUp_form=form2)
 
+
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):

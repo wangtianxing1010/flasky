@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Albums{% endblock %}
+
+{% block page_content %}
+<h1>{{title}}</h1>
+{% if user == current_user %}
+<h2>Manage Album</h2>
+<form method="POST" enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+    {{form.photos(multiple="multiple")}}
+    {% for error in form.photos.errors %}
+    {{error}}
+    {% endfor %}
+    {{form.submit}}
+</form>
+<a href="{{url_for('.delete_all')}}">Delete All</a>
+<a href="{{url_for('.create_album')}}">create album</a>
+{% endif %}
+<div class="albums">
+{% for album in album_list %}
+    {% if user == current_user %}
+    <a href="{{url_for('.delete_album', id=album.id)}}">Delete Album</a>
+    {% endif %}
+    - {{album.title}}
+    - {{album.author.username}}
+    - {{album.about}}
+    {% if album.cover %}
+        -     <a href="{{url_for('.album', id=album.id)}}"><img src="{{album.cover}}"></a>
+    {% else %}
+        -     <a href="{{url_for('.album', id=album.id)}}"><p>album cover page here</p></a>
+    {% endif %}
+    <br>
+{% endfor %}
+</div>
+<div class="photos">
+    {% include "_photos.html" %}
+</div>
+{% endblock %}
